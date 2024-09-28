@@ -6,9 +6,9 @@ use database Littlest__PetShop
 
 CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100),
-    email VARCHAR(100),
-    senha VARCHAR(100),
+    nome VARCHAR(100)NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(100) NOT NULL,
 );
 
 CREATE TABLE endereco (
@@ -22,7 +22,7 @@ CREATE TABLE endereco (
     UF VARCHAR(2) NOT NULL,
     PAIS VARCHAR(100) NOT NULL,
     id_usuario INT,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 
 );
 

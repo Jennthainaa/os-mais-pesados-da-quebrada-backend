@@ -14,20 +14,20 @@ mysql = MySQL(app)
 # Rota da Home
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 # Rota de Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form['nome']
+        password = request.form['senha']
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT * FROM usuarios WHERE nome = %s AND senha = %s", (username, password))
+        cursor.execute("SELECT * FROM usuario WHERE nome = %s AND senha = %s", (nome, senha))
         user = cursor.fetchone()
         cursor.close()
         if user:
-            return redirect(url_for('home'))
+            return redirect(url_for('index'))
         else:
             return "Usuário ou senha inválidos!"
     return render_template('login.html')
@@ -46,6 +46,21 @@ def cadastro():
         return redirect(url_for('list_users'))
     return render_template('cadastro.html')
 
+# Rota de Cadastro do pet
+@app.route('/cadastro-', methods=['GET', 'POST'])
+def cadastro():
+    if request.method == 'POST':
+        nome = request.form['nome']
+        email = request.form['email']
+        senha = request.form['senha']
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO usuarios (nome, email, senha) VALUES (%s, %s, %s)", (nome, email, senha))
+        mysql.connection.commit()
+        cursor.close()
+        return redirect(url_for('list_users'))
+    return render_template('cadastro.html')
+
+
 # Rota para Listagem de Usuários
 @app.route('/usuarios')
 def list_users():
@@ -53,7 +68,7 @@ def list_users():
     cursor.execute("SELECT * FROM usuarios")
     usuarios = cursor.fetchall()
     cursor.close()
-    return render_template('users.html', usuarios=usuarios)
+    return render_template('users.html', usuarios=usuario)
 
 # Rota para Atualizar Usuário
 @app.route('/update_user/<int:id>', methods=['GET', 'POST'])
