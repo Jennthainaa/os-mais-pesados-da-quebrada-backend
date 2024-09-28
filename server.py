@@ -6,8 +6,8 @@ app = Flask(__name__)
 # Configurações do banco de dados
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'sua_senha'
-app.config['MYSQL_DB'] = 'meu_banco_de_dados'
+app.config['MYSQL_PASSWORD'] = 'petauau123*'
+app.config['MYSQL_DB'] = 'Littlest__PetShop'
 
 mysql = MySQL(app)
 
@@ -47,18 +47,20 @@ def cadastro():
     return render_template('cadastro.html')
 
 # Rota de Cadastro do pet
-@app.route('/cadastro-', methods=['GET', 'POST'])
+@app.route('/pet', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
         nome = request.form['nome']
-        email = request.form['email']
-        senha = request.form['senha']
+        tipo = request.form['tipo']
+        raca = request.form['raca']
+        idade = request.form['idade']
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO usuarios (nome, email, senha) VALUES (%s, %s, %s)", (nome, email, senha))
+        cursor.execute("INSERT INTO pet (nome, tipo, raca, idade) VALUES (%s, %s, %s)", (nome, tipo, raca, idade))
         mysql.connection.commit()
         cursor.close()
         return redirect(url_for('list_users'))
-    return render_template('cadastro.html')
+    return render_template('pet.html')
+
 
 
 # Rota para Listagem de Usuários

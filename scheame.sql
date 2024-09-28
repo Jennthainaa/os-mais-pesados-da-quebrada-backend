@@ -26,7 +26,7 @@ CREATE TABLE endereco (
 
 );
 
-CREATE TABLE Pet (
+CREATE TABLE pet (
     id_pet INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(50) NOT NULL,
     tipo VARCHAR(50), 
